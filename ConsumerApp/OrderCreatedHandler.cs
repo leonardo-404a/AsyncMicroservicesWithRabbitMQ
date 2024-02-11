@@ -1,8 +1,9 @@
 ﻿using Dapper;
 using Microsoft.Data.SqlClient;
-using SharedLib;
+using PizzaPlace.Domain.PubSubModule.Event;
+using PizzaPlace.Infrastructure.Modules.OrderModule;
 
-namespace ConsumerApp;
+namespace PizzaPlace.OrderService;
 
 public class OrderCreatedHandler(string connectionString) : IEventHandler<OrderCreatedEvent>
 {
@@ -17,7 +18,7 @@ public class OrderCreatedHandler(string connectionString) : IEventHandler<OrderC
             var orderEntity = new
             {
                 @event.Order.Customer,
-                @event.Order.Details
+                @event.Order.Observations
             };
 
             var insertSql = "INSERT INTO Orders (Customer, Details) VALUES (@Customer, @Details)";

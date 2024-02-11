@@ -1,7 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
-using SharedLib;
+using PizzaPlace.Domain.PubSubModule.Event;
+using PizzaPlace.Infrastructure.Modules.PubSubModule;
 
-namespace ConsumerApp;
+namespace PizzaPlace.OrderService;
 
 public static class Program
 {
@@ -22,7 +23,7 @@ public static class Program
         var orderCreatedHandler = new OrderCreatedHandler(connectionString);
 
         OrderCreatedHandler orderCreatedHandlerFactory() => new(connectionString);
-        eventBus.Subscribe<OrderCreatedEvent>((Func<OrderCreatedHandler>)orderCreatedHandlerFactory);
+        eventBus.Subscribe((Func<OrderCreatedHandler>)orderCreatedHandlerFactory);
 
         Console.WriteLine("Aguardando eventos. Pressione [Enter] para sair.");
         Console.ReadLine();
